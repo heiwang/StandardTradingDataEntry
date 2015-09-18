@@ -36,7 +36,9 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.productTableAdapter1 = new StandardTradingDataEntry.StandardTradingDbDataSet1TableAdapters.ProductTableAdapter();
             this.EditCompanyButton = this.Factory.CreateRibbonButton();
+            this.EditProductButton = this.Factory.CreateRibbonButton();
             this.button1 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
@@ -51,23 +53,41 @@
             // group1
             // 
             this.group1.Items.Add(this.EditCompanyButton);
+            this.group1.Items.Add(this.EditProductButton);
             this.group1.Items.Add(this.button1);
             this.group1.Label = "Metadata";
             this.group1.Name = "group1";
             // 
+            // productTableAdapter1
+            // 
+            this.productTableAdapter1.ClearBeforeFill = true;
+            // 
             // EditCompanyButton
             // 
             this.EditCompanyButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.EditCompanyButton.Image = global::StandardTradingDataEntry.Properties.Resources.AddCompany;
             this.EditCompanyButton.Label = "Add/Remove Company";
             this.EditCompanyButton.Name = "EditCompanyButton";
             this.EditCompanyButton.ScreenTip = "Click this to add, remove, or update company details";
             this.EditCompanyButton.ShowImage = true;
             this.EditCompanyButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EditCompanyButton_Click);
             // 
+            // EditProductButton
+            // 
+            this.EditProductButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.EditProductButton.Image = global::StandardTradingDataEntry.Properties.Resources.AddProduct;
+            this.EditProductButton.Label = "Add/Remove Products";
+            this.EditProductButton.Name = "EditProductButton";
+            this.EditProductButton.ShowImage = true;
+            this.EditProductButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.EditProductButton_Click);
+            // 
             // button1
             // 
-            this.button1.Label = "button1";
+            this.button1.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button1.Image = global::StandardTradingDataEntry.Properties.Resources.ChangePrice;
+            this.button1.Label = "Update Product Pricing";
             this.button1.Name = "button1";
+            this.button1.ShowImage = true;
             // 
             // StandardTradingRibbon
             // 
@@ -87,6 +107,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton EditCompanyButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton EditProductButton;
+        private StandardTradingDbDataSet1TableAdapters.ProductTableAdapter productTableAdapter1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
     }
 

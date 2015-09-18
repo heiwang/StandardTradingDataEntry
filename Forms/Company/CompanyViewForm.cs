@@ -26,7 +26,6 @@ namespace StandardTradingDataEntry
         private void CompanyViewForm_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'standardTradingDbDataSet.Company' table. You can move, or remove it, as needed.
-            this.companyTableAdapter1.Fill(this.standardTradingDbDataSet.Company);
             // TODO: This line of code loads data into the 'standardTradingDbDataSet1.BillingType' table. You can move, or remove it, as needed.
             this.billingTypeTableAdapter.Fill(this.standardTradingDbDataSet1.BillingType);
             // TODO: This line of code loads data into the 'standardTradingDbDataSet1.PaymentType' table. You can move, or remove it, as needed.

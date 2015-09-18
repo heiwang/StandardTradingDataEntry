@@ -37,9 +37,6 @@
             this.companyTableAdapter = new StandardTradingDataEntry.StandardTradingDbDataSet1TableAdapters.CompanyTableAdapter();
             this.paymentTypeTableAdapter = new StandardTradingDataEntry.StandardTradingDbDataSet1TableAdapters.PaymentTypeTableAdapter();
             this.billingTypeTableAdapter = new StandardTradingDataEntry.StandardTradingDbDataSet1TableAdapters.BillingTypeTableAdapter();
-            this.standardTradingDbDataSet = new StandardTradingDataEntry.StandardTradingDbDataSet();
-            this.companyTableAdapter1 = new StandardTradingDataEntry.StandardTradingDbDataSetTableAdapters.CompanyTableAdapter();
-            this.tableAdapterManager = new StandardTradingDataEntry.StandardTradingDbDataSetTableAdapters.TableAdapterManager();
             this.tableAdapterManager1 = new StandardTradingDataEntry.StandardTradingDbDataSet1TableAdapters.TableAdapterManager();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
@@ -75,7 +72,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.standardTradingDbDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.billingTypeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.companyBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.standardTradingDbDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -118,25 +114,6 @@
             this.billingTypeTableAdapter.ClearBeforeFill = true;
             // 
             // standardTradingDbDataSet
-            // 
-            this.standardTradingDbDataSet.DataSetName = "StandardTradingDbDataSet";
-            this.standardTradingDbDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // companyTableAdapter1
-            // 
-            this.companyTableAdapter1.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.BillingTypeTableAdapter = null;
-            this.tableAdapterManager.CompanyTableAdapter = this.companyTableAdapter1;
-            this.tableAdapterManager.PaymentTypeTableAdapter = null;
-            this.tableAdapterManager.ProductTableAdapter = null;
-            this.tableAdapterManager.ProductTypeTableAdapter = null;
-            this.tableAdapterManager.TransactionDetailTableAdapter = null;
-            this.tableAdapterManager.TransactionTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = StandardTradingDataEntry.StandardTradingDbDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
             // tableAdapterManager1
             // 
@@ -431,7 +408,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.standardTradingDbDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.billingTypeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.companyBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.standardTradingDbDataSet)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -454,9 +430,6 @@
         private StandardTradingDbDataSet1TableAdapters.PaymentTypeTableAdapter paymentTypeTableAdapter;
         private System.Windows.Forms.BindingSource billingTypeBindingSource;
         private StandardTradingDbDataSet1TableAdapters.BillingTypeTableAdapter billingTypeTableAdapter;
-        private StandardTradingDbDataSet standardTradingDbDataSet;
-        private StandardTradingDbDataSetTableAdapters.CompanyTableAdapter companyTableAdapter1;
-        private StandardTradingDbDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private StandardTradingDbDataSet1TableAdapters.TableAdapterManager tableAdapterManager1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.BindingNavigator bindingNavigator1;
