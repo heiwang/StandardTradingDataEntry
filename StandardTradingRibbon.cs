@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Office.Tools.Ribbon;
 using StandardTradingDataEntry.Forms.Company;
+using StandardTradingDataEntry.Forms.Pricelist;
 using StandardTradingDataEntry.Forms.Product;
 
 namespace StandardTradingDataEntry
@@ -24,6 +25,12 @@ namespace StandardTradingDataEntry
         private void EditProductButton_Click(object sender, RibbonControlEventArgs e)
         {
             ProductViewForm viewForm = new ProductViewForm();
+            viewForm.Show();
+        }
+
+        private void button1_Click(object sender, RibbonControlEventArgs e)
+        {
+            PriceListViewForm viewForm = new PriceListViewForm();
             viewForm.Show();
         }
     }
