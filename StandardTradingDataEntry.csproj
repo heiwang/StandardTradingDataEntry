@@ -188,6 +188,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Company.tt</DependentUpon>
     </Compile>
+    <Compile Include="DTOs\IProductItem.cs" />
+    <Compile Include="DTOs\ProductCategory.cs" />
+    <Compile Include="DTOs\ProductItem.cs" />
     <Compile Include="Forms\Company\CompanyViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +202,18 @@
     </Compile>
     <Compile Include="Forms\Company\CompanyViewForm1.Designer.cs">
       <DependentUpon>CompanyViewForm1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DataEntry\DataEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DataEntry\DataEntryForm.Designer.cs">
+      <DependentUpon>DataEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DataEntry\ItemView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\DataEntry\ItemView.Designer.cs">
+      <DependentUpon>ItemView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Pricelist\PriceListViewForm.cs">
       <SubType>Form</SubType>
@@ -246,6 +261,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Company\CompanyViewForm1.resx">
       <DependentUpon>CompanyViewForm1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DataEntry\DataEntryForm.resx">
+      <DependentUpon>DataEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DataEntry\ItemView.resx">
+      <DependentUpon>ItemView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Pricelist\PriceListViewForm.resx">
       <DependentUpon>PriceListViewForm.cs</DependentUpon>
@@ -334,6 +355,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\ChangePrice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\BeanSprout.png" />
+    <Content Include="resources\BrownEgg.png" />
+    <Content Include="resources\WhiteEgg.png" />
+    <Content Include="resources\WhiteMushroom.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
