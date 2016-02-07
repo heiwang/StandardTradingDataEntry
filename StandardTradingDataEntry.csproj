@@ -188,8 +188,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Company.tt</DependentUpon>
     </Compile>
+    <Compile Include="DTOs\IProductOrderInfo.cs" />
+    <Compile Include="DTOs\ICompanyInfo.cs" />
     <Compile Include="DTOs\IProductItem.cs" />
     <Compile Include="DTOs\ProductCategory.cs" />
+    <Compile Include="DTOs\CompanyInfo.cs" />
+    <Compile Include="DTOs\ProductOrderInfo.cs" />
     <Compile Include="DTOs\ProductItem.cs" />
     <Compile Include="Forms\Company\CompanyViewForm.cs">
       <SubType>Form</SubType>
@@ -209,11 +213,11 @@
     <Compile Include="Forms\DataEntry\DataEntryForm.Designer.cs">
       <DependentUpon>DataEntryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DataEntry\ItemView.cs">
+    <Compile Include="Forms\DataEntry\CompanyItemView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\DataEntry\ItemView.Designer.cs">
-      <DependentUpon>ItemView.cs</DependentUpon>
+    <Compile Include="Forms\DataEntry\CompanyItemView.Designer.cs">
+      <DependentUpon>CompanyItemView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Pricelist\PriceListViewForm.cs">
       <SubType>Form</SubType>
@@ -256,6 +260,7 @@
     <Compile Include="TransactionDetail.cs">
       <DependentUpon>Company.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utility\SharedUtility.cs" />
     <EmbeddedResource Include="Forms\Company\CompanyViewForm.resx">
       <DependentUpon>CompanyViewForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,8 +270,8 @@
     <EmbeddedResource Include="Forms\DataEntry\DataEntryForm.resx">
       <DependentUpon>DataEntryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DataEntry\ItemView.resx">
-      <DependentUpon>ItemView.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\DataEntry\CompanyItemView.resx">
+      <DependentUpon>CompanyItemView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Pricelist\PriceListViewForm.resx">
       <DependentUpon>PriceListViewForm.cs</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace StandardTradingDataEntry.Forms.DataEntry
 {
-    partial class ItemView
+    partial class CompanyItemView
     {
         /// <summary> 
         /// Required designer variable.
@@ -40,12 +40,13 @@
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // ItemView
+            // CompanyItemView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button1);
-            this.Name = "ItemView";
+            this.Name = "CompanyItemView";
+            this.Size = new System.Drawing.Size(199, 126);
             this.ResumeLayout(false);
 
         }

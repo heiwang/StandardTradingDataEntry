@@ -8,19 +8,82 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using StandardTradingDataEntry.DTOs;
+using StandardTradingDataEntry.Utility;
 
 namespace StandardTradingDataEntry.Forms.DataEntry
 {
     public partial class DataEntryForm : Form
     {
         private IProductItem _selectedItem;
+        private ICompanyInfo _selectedCompany;
+        private Button _selectedCompanyButton;
+        private Button _selectedItemButton;
+        private Dictionary<string, IList<IProductOrderInfo>> orders;
+        private IList<IProductOrderInfo> currentOrders;
+
+        private ICompanyInfo SelectedCompany
+        {
+            get { return this._selectedCompany; }
+            set
+            {
+                this.OnSwitchingCompany(_selectedCompany, value);
+                this._selectedCompany = value;
+            }
+        }
+        
+        private Button SelectedCompanyButton
+        {
+            get { return this._selectedCompanyButton;}
+            set
+            {
+                if (this._selectedCompanyButton != null)
+                {
+                    ResetSelectedButton(this._selectedCompanyButton);
+                }
+
+                this._selectedCompanyButton = value;
+                SetSelectedButton(this._selectedCompanyButton);
+            }
+        }
+
+        private Button SelectedItemButton
+        {
+            get { return this._selectedItemButton;}
+            set
+            {
+                if (this._selectedItemButton != null)
+                {
+                    ResetSelectedButton(this._selectedItemButton);
+                }
+
+                this._selectedItemButton = value;
+                SetSelectedButton(this._selectedItemButton);
+            }
+        }
+
+        private void SetSelectedButton(Button button)
+        {
+            button.FlatAppearance.BorderColor = Color.DarkOrange;
+            button.FlatAppearance.BorderSize = 3;
+        }
+
+        private void ResetSelectedButton(Button button)
+        {
+            button.FlatAppearance.BorderColor = Color.Black;
+            button.FlatAppearance.BorderSize = 1;
+        }
 
         public DataEntryForm()
         {
             InitializeComponent();
             IEnumerable<IProductItem> items = InitializeDummyItems();
+            IEnumerable<ICompanyInfo> companies = InitializeCompanyItems();
             InitializeListItems(items);
+            InitializeCompanyFlowPanel(this.companyFlowLayoutPanel1, companies.OrderBy(x => x.Order));
+            orders = new Dictionary<string, IList<IProductOrderInfo>>();
             this.AcceptButton = OKbutton;
+            errorProvider1.SetIconAlignment(this.OKbutton, ErrorIconAlignment.BottomLeft);
+            errorProvider1.SetIconPadding(this.OKbutton, 2);
         }
 
         private void InitializeListItems(IEnumerable<IProductItem> items)
@@ -50,12 +113,55 @@ namespace StandardTradingDataEntry.Forms.DataEntry
                 button.Click += new EventHandler((object e, EventArgs e1) =>
                                                     {
                                                         _selectedItem = item;
-                                                        SelectedItemLabel.Text = item.NickName;
+                                                        SelectedItemButton = button;
                                                     });
                 panel.Controls.Add(button);
                 panel.AutoScroll = true;
             }
 
+        }
+
+        private void InitializeCompanyFlowPanel(FlowLayoutPanel panel, IEnumerable<ICompanyInfo> companies)
+        {
+            foreach (ICompanyInfo company in companies)
+            {
+                Button button = new Button();
+                button.FlatStyle = FlatStyle.Flat;
+                button.BackColor = Color.GhostWhite;
+                button.Text = company.NickName;
+                button.Width = 270;
+                button.Height = 60;
+                button.Font = new Font(button.Font.FontFamily, 20);
+                button.Margin = new Padding(5);
+                button.Click += new EventHandler((object e, EventArgs e1) =>
+                {
+                    SelectedCompany = company;
+                    SelectedCompanyButton = button;
+                });
+                panel.Controls.Add(button);
+                panel.MouseEnter += new EventHandler((object e, EventArgs e1) => { panel.Focus();  });
+                panel.FlowDirection = FlowDirection.LeftToRight;
+                panel.AutoScroll = true;
+            }
+
+        }
+
+        private IEnumerable<ICompanyInfo> InitializeCompanyItems()
+        {
+            List<ICompanyInfo> companies = new List<ICompanyInfo>();
+
+            for (int i = 0; i < 180; i++)
+            {
+                CompanyInfo info = new CompanyInfo();
+                info.EnglishName = "ABCDEF";
+                info.Id = i;
+                info.NickName = "TestCompany" + i;
+                info.Order = 180 - i;
+
+                companies.Add(info);
+            }
+
+            return companies;
         }
 
         private List<IProductItem> InitializeDummyItems()
@@ -165,35 +271,95 @@ namespace StandardTradingDataEntry.Forms.DataEntry
             }
         }
 
-        private void AddOrder(object sender, EventArgs e)
+        private void OnSwitchingCompany(ICompanyInfo originalCompany, ICompanyInfo newCompany)
+        {
+            SharedUtility.ThrowIfNull(newCompany, "newCompany");
+
+            if (_selectedCompany == null) return;
+            
+            // store orders for original company
+            string key = GetOrderKey(dateTimePicker1.Value, originalCompany);
+            
+            orders[key] = currentOrders;
+            currentOrders = null;
+
+            // Clear the list view
+            orderListView.Items.Clear();
+
+            // retrieve orders for new company
+            key = GetOrderKey(dateTimePicker1.Value, newCompany);
+            if (orders.ContainsKey(key) && orders[key] != null)
+            {
+               foreach(ProductOrderInfo orderInfo in orders[key])
+               {
+                   orderListView.Items.Add(this.GetListViewItem(orderInfo.ProductItem, orderInfo.Quantity));
+               }
+
+               currentOrders = orders[key];
+            }
+        }
+
+        private void OnClick_OK(object sender, EventArgs e)
         {
             double quantity = 0.0;
             
             if (_selectedItem == null)
             {
-                label1.Text = "Please Select An Item First";
+                errorProvider1.SetError(this.OKbutton, "Please Select An Item First");
             }
             else if (!Double.TryParse(QuantityBox.Text, out quantity))
             {
-                label1.Text = "Cannot parse text as double";
+                errorProvider1.SetError(this.OKbutton, "Cannot parse text as double");
             }
             else
             {
-                label1.Text = quantity.ToString();
+                errorProvider1.SetError(this.OKbutton, String.Empty);
                 QuantityBox.Text = String.Empty;
-                ListViewItem orderRow = new ListViewItem(_selectedItem.NickName);
-                orderRow.SubItems.Add(_selectedItem.Price.ToString("C2"));
-                orderRow.SubItems.Add(quantity.ToString("F2"));
-                double subtotal = _selectedItem.Price*quantity;
-                orderRow.SubItems.Add(subtotal.ToString("C2"));
-                orderListView.Items.Add(orderRow);
+                orderListView.Items.Add(this.GetListViewItem(_selectedItem, quantity));
+                IProductOrderInfo order = GetProductOrder(dateTimePicker1.Value, SelectedCompany, _selectedItem, quantity);
 
+                if (currentOrders == null)
+                {
+                    currentOrders = new List<IProductOrderInfo>();
+                }
+
+                currentOrders.Add(order);
+               
             }
-
-           
 
             SetFocusToTextBox();
         }
+
+        private string GetOrderKey(DateTime date, ICompanyInfo company)
+        {
+            SharedUtility.ThrowIfNull(date, "date");
+            SharedUtility.ThrowIfNull(company, "company");
+            return date.ToShortDateString() + company.NickName + company.Id;
+        }
+        private ListViewItem GetListViewItem(IProductItem _selectedItem, double quantity)
+        {
+            ListViewItem orderRow = new ListViewItem(_selectedItem.NickName);
+            orderRow.SubItems.Add(_selectedItem.Price.ToString("C2"));
+            orderRow.SubItems.Add(quantity.ToString());
+            double subtotal = _selectedItem.Price * quantity;
+            orderRow.SubItems.Add(subtotal.ToString("C2"));
+            return orderRow;
+        }
+
+        private IProductOrderInfo GetProductOrder(DateTime date, ICompanyInfo company, IProductItem item, double quantity)
+        {
+            SharedUtility.ThrowIfNull(date, "date");
+            SharedUtility.ThrowIfNull(company, "company");
+            SharedUtility.ThrowIfNull(item, "item");
+
+            ProductOrderInfo order = new ProductOrderInfo();
+            order.OrderDate = date;
+            order.ProductItem = item;
+            order.Quantity = quantity;
+            order.Company = company;
+            return order;
+        }
+
 
         private void SetFocusToTextBox()
         {
@@ -201,14 +367,29 @@ namespace StandardTradingDataEntry.Forms.DataEntry
             QuantityBox.SelectionStart = QuantityBox.Text.Length;
         }
 
-        private void DataEntryForm_Load(object sender, EventArgs e)
+        private void FastRewindBtn_Click(object sender, EventArgs e)
         {
-
+            this.companyFlowLayoutPanel1.AutoScrollPosition = new Point(0, companyFlowLayoutPanel1.VerticalScroll.Minimum);
         }
 
-        private void orderListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void FastFwdBtn_Click(object sender, EventArgs e)
         {
-
+            this.companyFlowLayoutPanel1.AutoScrollPosition = new Point(0, companyFlowLayoutPanel1.VerticalScroll.Maximum);
         }
+
+        private void RewindBtn_Click(object sender, EventArgs e)
+        {
+            // Find the bigger of the two scroll positions
+            int pos = Math.Max(companyFlowLayoutPanel1.VerticalScroll.Minimum, companyFlowLayoutPanel1.VerticalScroll.Value - companyFlowLayoutPanel1.Height + 65);
+            this.companyFlowLayoutPanel1.AutoScrollPosition = new Point(0, pos);
+        }
+
+        private void FwdBtn_Click(object sender, EventArgs e)
+        {
+            // Find the smaller of the two scroll positions
+            int pos = Math.Min(companyFlowLayoutPanel1.VerticalScroll.Maximum, companyFlowLayoutPanel1.VerticalScroll.Value + companyFlowLayoutPanel1.Height - 65);
+            this.companyFlowLayoutPanel1.AutoScrollPosition = new Point(0, pos);
+        }
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Drawing;
 namespace StandardTradingDataEntry.DTOs
 {
-    interface IProductItem
+    public interface IProductItem
     {
         ProductCategory Category { get; set; }
         

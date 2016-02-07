@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace StandardTradingDataEntry.Forms.DataEntry
 {
-    public partial class ItemView : UserControl
+    public partial class CompanyItemView : UserControl
     {
-        public ItemView()
+        public CompanyItemView()
         {
             InitializeComponent();
         }
